@@ -6,7 +6,7 @@ type Todo struct {
 	Done bool   `json:"done"`
 }
 
-func CreateTodo(todo string) err {
+func CreateTodo(todo string) error {
 
 	statement := `insert into todos (todo, done) values ($1, $2);`
 
@@ -35,7 +35,7 @@ func GetAllTodos() ([]Todo, error) {
 		var done bool
 		var id uint64
 
-		err := db.Scan(&id, &title, &done)
+		err := rows.Scan(&id, &title, &done)
 
 		if err != nil {
 			return todos, err
@@ -58,7 +58,7 @@ func GetTodo(id uint64) (Todo, error) {
 	todo := Todo{}
 	todo.Id = id
 
-	row, err := db.QueryRow(statement, id)
+	row, err := db.Query(statement, id)
 	if err != nil {
 		return todo, err
 	}
