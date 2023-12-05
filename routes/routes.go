@@ -1,10 +1,13 @@
 package routes
 
 import (
+	"fmt"
+	"html/template"
 	"net/http"
 
+	"log"
+
 	"github.com/gorilla/mux"
-	"github.com/labstack/gommon/log"
 )
 
 func sendTodos(w http.ResponseWriter) {
@@ -12,7 +15,11 @@ func sendTodos(w http.ResponseWriter) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	// sendTodos(w)
+	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	err := tmpl.Execute(w, nil)
+	if err != nil {
+		fmt.Println("Could not execute template", err)
+	}
 }
 
 func markTodo(w http.ResponseWriter, r *http.Request) {
