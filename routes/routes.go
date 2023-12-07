@@ -11,7 +11,11 @@ import (
 )
 
 func sendTodos(w http.ResponseWriter) {
-
+    tmpl := template.Must(template.ParseFiles("templates/todos.html"))
+    err := tmpl.Execute(w, nil)
+    if err != nil {
+        fmt.Println("Could not execute template", err)
+    }
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
