@@ -6,18 +6,25 @@ import (
 	"net/http"
 
 	"log"
-
+    "htmx/model"
 	"github.com/gorilla/mux"
 )
 
 func sendTodos(w http.ResponseWriter) {
-    tmpl := template.Must(template.ParseFiles("templates/todos.html"))
-    err := tmpl.Execute(w, nil)
+    
+    todos, err := model.GetAllTodos()
+    if err != nil {
+        fmt.Println("Could not get todos", err)
+        return
+    }
+
+    tmpl := template.Must(template.ParseFiles("templates/index.html"))
+
+    err = tmpl.ExecuteTemplate(w, "Todos", todos)
     if err != nil {
         fmt.Println("Could not execute template", err)
     }
 }
-
 func index(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/index.html"))
 	err := tmpl.Execute(w, nil)
