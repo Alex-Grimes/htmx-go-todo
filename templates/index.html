@@ -7,5 +7,15 @@
     </head>
     <body class="container max-w-xl mx-auto">
         <h1 class="font-bold text-2xl my-16">TODO!</h1>
+
+        <form class="grid grid-cols-7 m-4 gap-2">
+            <input class="col-span-5 input input-bordered" type="text" name="todo" placeholder="What needs to be done?">
+            <button class="btn btn-accent col-span-2"
+                hx-post="/create"
+                hx-target="#todo-list"
+                hx-swap="innerHTML">
+                Create Todo
+            </button>
+        </form>
     </body>
 </html>
