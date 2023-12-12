@@ -57,11 +57,32 @@ func markTodo(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteTodo(w http.ResponseWriter, r *http.Request) {
-	// sendTodos(w)
+	id, err := strconv.ParseUint(mux.Vars(r)["id"], 10, 64)
+	if err != nil {
+		fmt.Println("Could not parse id", err)
+
+	}
+
+	err = model.Delete(id)
+	if err != nil {
+		fmt.Println("Could not delete todo", err)
+	}
+
+	sendTodos(w)
 }
 
 func createTodo(w http.ResponseWriter, r *http.Request) {
-	// sendTodos(w)
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Println("Could not parse form", err)
+	}
+
+	err = model.CreateTodo(r.FormValue("todo"))
+	if err != nil {
+		fmt.Println("Could not create todo", err)
+	}
+
+	sendTodos(w)
 }
 
 func SetupAndRun() {
