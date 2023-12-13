@@ -88,8 +88,8 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 func SetupAndRun() {
 	mux := mux.NewRouter()
 	mux.HandleFunc("/", index)
-	mux.HandleFunc("/mark", markTodo).Methods("PUT")
-	mux.HandleFunc("/delete", deleteTodo).Methods("DELETE")
+	mux.HandleFunc("/todo/{id}", markTodo).Methods("PUT")
+	mux.HandleFunc("/todo/{id}", deleteTodo).Methods("DELETE")
 	mux.HandleFunc("/create", createTodo).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":5000", mux))

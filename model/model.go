@@ -17,18 +17,16 @@ func CreateTodo(todo string) error {
 }
 
 func GetAllTodos() ([]Todo, error) {
-
-	statement := `select * from todos;`
+	todos := []Todo{}
+	statement := `select id, todo, done from todos;`
 
 	rows, err := db.Query(statement)
 
 	if err != nil {
-		return nil, err
+		return todos, err
 	}
 
 	defer rows.Close()
-
-	todos := []Todo{}
 
 	for rows.Next() {
 		var title string
@@ -53,7 +51,7 @@ func GetAllTodos() ([]Todo, error) {
 
 func GetTodo(id uint64) (Todo, error) {
 
-	statement := `select * from todos where id = $1;`
+	statement := `select todo, done from todos where id=$1;`
 
 	todo := Todo{}
 	todo.Id = id
